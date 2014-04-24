@@ -10,7 +10,7 @@ Public Class Form1
         Dim mainLibrarySource = iTunesApp.LibrarySource
         Dim tracks = mainLibrary.Tracks
         Dim numTracks = tracks.Count
-        Dim numPlaylistsCreated = 0
+        Dim temp = iTunesApp.Sources
         'Dim protokoll As String = ""
 
         Me.ProgressBar1.Minimum = 0
@@ -56,7 +56,12 @@ Public Class Form1
                             If Dateiname <> Dateiname_new Then
                                 Me.txtFiles.BackColor = Color.LightGreen
                                 Application.DoEvents()
-                                My.Computer.FileSystem.RenameFile(pfad & "\" & Dateiname & extension, Dateiname_new & extension)
+                                If Not My.Computer.FileSystem.FileExists(pfad & "\" & Dateiname_new & extension) Then
+                                    My.Computer.FileSystem.RenameFile(pfad & "\" & Dateiname & extension, Dateiname_new & extension)
+                                Else
+                                    My.Computer.FileSystem.DeleteFile(pfad & "\" & Dateiname & extension)
+                                End If
+
                                 currTrack.Location = pfad & "\" & Dateiname_new & extension
                             End If
 
